@@ -6,7 +6,7 @@ ASGs, regarded EC2 instances contain user data that installs and starts httpd. U
 
 Bonus: There is a python script in get_az folder that leverages boto3 lib to return info about deployed EC2 instances including their AZs.
 
-Stack-file: serverless_cms/serverless_cms_stack.py
+Stack-file: spring_boot_app/spring_boot_app_stack.py
 ## Building Steps
 
 * `npm install -g aws-cdk`                install aws-cdk
