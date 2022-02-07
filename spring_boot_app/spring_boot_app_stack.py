@@ -42,7 +42,7 @@ class SpringBootAppStack(Stack):
                                           vpc=vpc,
                                           internet_facing=True,
                                           load_balancer_name="appALB"
-                                          )
+        )
         
         listener = alb.add_listener("port80",
                                     port=80,
@@ -54,7 +54,7 @@ class SpringBootAppStack(Stack):
             interval=aws_cdk.Duration.seconds(60),
             path="/health",
             timeout=aws_cdk.Duration.seconds(5)
-)
+        )
         
         # EC2 autoscaling group with one EC2 instance at start
         auto_scaling_g = autoscaling.AutoScalingGroup(self, "APP ASG",
@@ -103,7 +103,7 @@ class SpringBootAppStack(Stack):
         listener.add_targets("addTargetGroup1",
                              port=80,
                              targets=[auto_scaling_g, auto_scaling_g2]
-                             )
+        )
 
         CfnOutput(self, "Output",
                        value=alb.load_balancer_dns_name)
