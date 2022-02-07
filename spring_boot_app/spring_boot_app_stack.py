@@ -3,8 +3,6 @@ import aws_cdk
 from constructs import Construct
 from aws_cdk import (
     CfnOutput,
-    RemovalPolicy,
-    SecretValue,
     Stack,
     aws_apigateway as apigw,
     aws_ec2 as ec2,

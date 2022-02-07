@@ -1,5 +1,5 @@
 
-# Boot Spring Application!
+# Boot Spring Application
 
 This project content demonstrates an AWS CDK app with an instance of a stack (`spring_boot_app_stack.py`) which contains two auto-scaling groups to be deployed two different subnets (AZs) fronted by an ALB. After deployment of 
 ASGs, regarded EC2 instances contain user data that installs and starts httpd. User data also contains a custom script that returns AZ that the instance deployed on by simply executing `./hello` command.
