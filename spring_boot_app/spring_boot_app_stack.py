@@ -35,8 +35,7 @@ class SpringBootAppStack(Stack):
         # Deploy custom VPC
         vpc = ec2.Vpc(
         self, "Spring_Boot_VPC",
-        cidr="10.0.0.0/16"
-        )
+        cidr="10.0.0.0/16")
 
         # Create ALB
         alb = elbv2.ApplicationLoadBalancer(self, "appALB",
@@ -45,7 +44,7 @@ class SpringBootAppStack(Stack):
                                           load_balancer_name="appALB"
                                           )
         
-        listener = alb.add_listener("my80",
+        listener = alb.add_listener("port80",
                                     port=80,
                                     open=True)
 
@@ -60,7 +59,7 @@ class SpringBootAppStack(Stack):
         # EC2 autoscaling group with one EC2 instance at start
         auto_scaling_g = autoscaling.AutoScalingGroup(self, "APP ASG",
                                                 vpc=vpc,
-                                                vpc_subnets=ec2.SubnetSelection(subnet_type=ec2.SubnetType.PRIVATE_WITH_NAT),
+                                                vpc_subnets=ec2.SubnetSelection(subnet_type=ec2.SubnetType.PUBLIC),
                                                 instance_type=ec2.InstanceType(instance_type_identifier=ec2_type),
                                                 machine_image=linux_ami,
                                                 user_data=ec2.UserData.custom(user_data),
