@@ -2,6 +2,7 @@ import json
 import aws_cdk
 from constructs import Construct
 from aws_cdk import (
+    CfnOutput,
     RemovalPolicy,
     SecretValue,
     Stack,
@@ -9,6 +10,7 @@ from aws_cdk import (
     aws_ec2 as ec2,
     aws_autoscaling as autoscaling,
     aws_cloudwatch as cw,
+    aws_elasticloadbalancingv2 as elbv2,
 )
 
 from constructs import Construct
@@ -37,17 +39,23 @@ class SpringBootAppStack(Stack):
         )
 
         # Create ALB
-        alb = elb.ApplicationLoadBalancer(self, "myALB",
+        alb = elbv2.ApplicationLoadBalancer(self, "appALB",
                                           vpc=vpc,
                                           internet_facing=True,
-                                          load_balancer_name="myALB"
+                                          load_balancer_name="appALB"
                                           )
-        alb.connections.allow_from_any_ipv4(
-            ec2.Port.tcp(80), "Internet access ALB 80")
+        
         listener = alb.add_listener("my80",
                                     port=80,
                                     open=True)
+
+
         
+        health_check = elbv2.HealthCheck(
+            interval=aws_cdk.Duration.seconds(60),
+            path="/health",
+            timeout=aws_cdk.Duration.seconds(5)
+)
         
         # EC2 autoscaling group with one EC2 instance at start
         auto_scaling_g = autoscaling.AutoScalingGroup(self, "APP ASG",
@@ -92,10 +100,11 @@ class SpringBootAppStack(Stack):
             estimated_instance_warmup=aws_cdk.Duration.minutes(20),
         )
 
-        self.asg.connections.allow_from(alb, ec2.Port.tcp(80), "ALB access 80 port of EC2 in Autoscaling Group")
+        auto_scaling_g.connections.allow_from(alb, ec2.Port.tcp(80), "ALB access 80 port of EC2 in Autoscaling Group")
         listener.add_targets("addTargetGroup1",
                              port=80,
-                             targets=[auto_scaling_g]
-                             
-                             
+                             targets=[auto_scaling_g, auto_scaling_g2]
                              )
+
+        CfnOutput(self, "Output",
+                       value=alb.load_balancer_dns_name)
