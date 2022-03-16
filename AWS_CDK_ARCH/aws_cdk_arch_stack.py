@@ -24,7 +24,7 @@ linux_ami = ec2.AmazonLinuxImage(generation=ec2.AmazonLinuxGeneration.AMAZON_LIN
 with open("./user_data/user_data.sh") as f:
     user_data = f.read()
 
-class SpringBootAppStack(Stack):
+class awsCdkArchStack(Stack):
 
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
@@ -32,7 +32,7 @@ class SpringBootAppStack(Stack):
 
         # Deploy custom VPC
         vpc = ec2.Vpc(
-        self, "Spring_Boot_VPC",
+        self, "AWS-CDK-VPC",
         cidr="10.0.0.0/16")
 
         # Create ALB

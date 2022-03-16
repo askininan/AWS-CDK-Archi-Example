@@ -1,12 +1,12 @@
 
-# Boot Spring Application
+# AWS-CDK-ARCH
 
-This project content demonstrates an AWS CDK app with an instance of a stack (`spring_boot_app_stack.py`) which contains two auto-scaling groups to be deployed two different subnets (AZs) fronted by an ALB. After deployment of 
+This project content demonstrates an AWS CDK app with an instance of a stack (`aws-cdk-arch_stack.py`) which contains two auto-scaling groups to be deployed two different subnets (AZs) fronted by an ALB. After deployment of 
 ASGs, regarded EC2 instances contain user data that installs and starts httpd. User data also contains a custom script that returns AZ that the instance deployed on by simply executing `./hello` command.
 
 Bonus: There is a python script in get_az folder that leverages boto3 lib to return info about deployed EC2 instances including their AZs.
 
-Stack-file: spring_boot_app/spring_boot_app_stack.py
+Stack-file: spring_boot_app/aws-cdk-arch_stack.py
 ## Building Steps
 
 * `npm install -g aws-cdk`                install aws-cdk
